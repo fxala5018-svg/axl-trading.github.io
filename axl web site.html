@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AXL — استراتيجية علاء للتداول الاحترافي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Tajawal:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#C9A84C;--gold2:#E8C97A;--gold-dim:rgba(201,168,76,0.12);
+  --dark:#06080D;--dark2:#0C0F17;--dark3:#121722;--dark4:#181E2E;--dark5:#1E263A;
+  --border:rgba(201,168,76,0.14);--border2:rgba(201,168,76,0.3);
+  --green:#22C87A;--red:#E8455A;--text:#ECF0FA;--muted:#7A849E;--muted2:#A0AABF;
+  --font:'Tajawal',sans-serif;--display:'Playfair Display',serif;--mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--text);font-family:var(--font);overflow-x:hidden;line-height:1.6}
+.page{display:none;min-height:100vh;animation:fadeIn .4s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:68px;padding:0 44px;display:flex;align-items:center;justify-content:space-between;background:rgba(6,8,13,0.97);border-bottom:1px solid var(--border);backdrop-filter:blur(16px)}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.logo-mark{width:38px;height:38px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:16px;font-weight:900;color:#000;letter-spacing:-1px}
+.logo-text{font-family:var(--display);font-size:22px;font-weight:900;color:var(--gold);letter-spacing:2px}
+.logo-sub{font-size:9px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-top:-2px}
+.nav-links{display:flex;gap:4px}
+.nl{background:none;border:none;color:var(--muted2);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;padding:7px 13px;border-radius:6px;transition:all .2s}
+.nl:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+.nl.on{color:var(--gold)}
+.nav-right{display:flex;gap:8px;align-items:center}
+.btn-login{background:transparent;border:1px solid var(--border2);color:var(--gold);font-family:var(--font);font-size:13px;font-weight:600;padding:8px 18px;border-radius:7px;cursor:pointer;transition:all .2s}
+.btn-login:hover{background:var(--gold-dim)}
+.btn-join{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;font-family:var(--font);font-size:13px;font-weight:800;padding:8px 22px;border-radius:7px;border:none;cursor:pointer;transition:all .2s;letter-spacing:.5px}
+.btn-join:hover{opacity:.88;transform:translateY(-1px)}
+
+/* TICKER */
+.ticker-bar{background:var(--dark3);border-bottom:1px solid var(--border);padding:8px 0;overflow:hidden;display:none}
+.ticker-inner{display:flex;gap:48px;white-space:nowrap;animation:scroll 28s linear infinite}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ti{font-family:var(--mono);font-size:11.5px;display:flex;gap:8px}
+.ti .s{color:var(--gold);font-weight:500}
+.ti .u{color:var(--green)}
+.ti .d{color:var(--red)}
+
+/* BUTTONS */
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;padding:15px 34px;border-radius:10px;font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;box-shadow:0 4px 24px rgba(201,168,76,0.28)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(201,168,76,0.38)}
+.btn-outline{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,0.13);padding:15px 34px;border-radius:10px;font-family:var(--font);font-size:15px;font-weight:600;cursor:pointer;transition:all .25s}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+
+/* SECTION */
+.section{padding:80px 60px}
+.stag{display:inline-block;background:var(--gold-dim);border:1px solid var(--border2);color:var(--gold);font-size:10px;font-weight:700;letter-spacing:3px;padding:5px 14px;border-radius:20px;text-transform:uppercase;margin-bottom:14px}
+.stitle{font-family:var(--display);font-size:clamp(28px,4vw,48px);font-weight:900;line-height:1.1;margin-bottom:12px}
+.ssub{color:var(--muted2);font-size:15px;line-height:1.85;max-width:560px}
+.sh{margin-bottom:48px}
+.sh.c{text-align:center}.sh.c .ssub{margin:0 auto}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;animation:p 1.8s ease-in-out infinite}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ===================== PAGE: HOME ===================== */
+.hero{padding:100px 60px 70px;min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+.hero-glow{position:absolute;top:-10%;left:50%;transform:translateX(-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(201,168,76,0.08) 0%,transparent 70%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.035) 1px,transparent 1px);background-size:64px 64px;pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.09);border:1px solid rgba(201,168,76,0.28);color:var(--gold);font-size:11px;font-weight:700;letter-spacing:2px;padding:7px 18px;border-radius:30px;text-transform:uppercase;margin-bottom:32px}
+.hero h1{font-family:var(--display);font-size:clamp(38px,6.5vw,74px);font-weight:900;line-height:1.06;margin-bottom:22px;max-width:920px}
+.hero h1 .g{color:var(--gold);display:block}
+.hero-desc{color:var(--muted2);font-size:17px;max-width:600px;margin:0 auto 44px;line-height:1.85}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:70px}
+.hero-stats{display:flex;gap:0;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--dark2)}
+.hs{padding:24px 38px;text-align:center;border-left:1px solid var(--border)}
+.hs:last-child{border-left:none}
+.hs .n{font-family:var(--mono);font-size:30px;font-weight:500;color:var(--gold)}
+.hs .l{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:.5px}
+
+/* STRATEGY SECTION */
+.strategy-wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.strategy-card{background:linear-gradient(135deg,var(--dark3),var(--dark4));border:1px solid var(--border2);border-radius:20px;padding:44px 40px;position:relative;overflow:hidden}
+.strategy-card::before{content:'AXL';position:absolute;top:-20px;right:-10px;font-family:var(--display);font-size:120px;font-weight:900;color:rgba(201,168,76,0.04);pointer-events:none;line-height:1}
+.strategy-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,200,122,0.1);border:1px solid rgba(34,200,122,0.25);color:var(--green);font-size:11px;font-weight:700;letter-spacing:1.5px;padding:6px 14px;border-radius:20px;text-transform:uppercase;margin-bottom:20px}
+.strategy-num{font-family:var(--mono);font-size:72px;font-weight:500;line-height:1;background:linear-gradient(135deg,var(--green),#5FFFC4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px}
+.strategy-label{font-size:14px;color:var(--muted2);margin-bottom:24px;letter-spacing:.5px}
+.strategy-bars{display:flex;flex-direction:column;gap:10px}
+.sbar-row{display:flex;gap:10px;align-items:center}
+.sbar-label{font-size:12px;color:var(--muted2);width:60px;text-align:left;flex-shrink:0}
+.sbar-track{flex:1;height:6px;background:var(--dark5);border-radius:3px;overflow:hidden}
+.sbar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--green),#5FFFC4)}
+.sbar-val{font-family:var(--mono);font-size:12px;color:var(--green);width:36px;flex-shrink:0}
+.strategy-text .big-q{font-family:var(--display);font-size:clamp(22px,3vw,34px);font-weight:700;line-height:1.3;margin-bottom:20px}
+.strategy-text .big-q em{color:var(--gold);font-style:normal}
+.strategy-text p{color:var(--muted2);font-size:15px;line-height:1.9;margin-bottom:14px}
+.strategy-points{margin-top:24px;display:flex;flex-direction:column;gap:12px}
+.sp{display:flex;gap:12px;align-items:flex-start}
+.sp-icon{width:32px;height:32px;border-radius:8px;background:var(--gold-dim);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.sp-text{font-size:14px;color:var(--muted2);line-height:1.6}
+.sp-text strong{color:var(--text)}
+
+/* SIGNALS PREVIEW */
+.sig-card{background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:10px;position:relative;overflow:hidden;cursor:pointer;transition:all .25s}
+.sig-card::before{content:'';position:absolute;top:0;right:0;bottom:0;width:3px}
+.sig-card.buy::before{background:var(--green)}
+.sig-card.sell::before{background:var(--red)}
+.sig-card:hover{border-color:rgba(201,168,76,0.3);transform:translateX(-3px)}
+.sc1{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}
+.sc-pair{font-family:var(--mono);font-size:18px;font-weight:500}
+.sc-type{font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:1px}
+.sc-type.buy{background:rgba(34,200,122,0.12);color:var(--green);border:1px solid rgba(34,200,122,0.22)}
+.sc-type.sell{background:rgba(232,69,90,0.12);color:var(--red);border:1px solid rgba(232,69,90,0.22)}
+.sc2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+.scf .k{font-size:10px;color:var(--muted);margin-bottom:3px;letter-spacing:.5px}
+.scf .v{font-family:var(--mono);font-size:13px}
+.scf .v.g{color:var(--green)}
+.scf .v.r{color:var(--red)}
+.sc-bar{height:3px;background:var(--dark5);border-radius:2px;overflow:hidden;margin-bottom:8px}
+.sc-bar-f{height:100%;border-radius:2px}
+.sc-bar-f.buy{background:var(--green)}
+.sc-bar-f.sell{background:var(--red)}
+.sc-foot{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);font-family:var(--mono)}
+
+/* MEMBERS ONLY BANNER */
+.members-banner{background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(34,200,122,0.05));border:1px solid rgba(201,168,76,0.25);border-radius:16px;padding:40px 48px;display:flex;gap:32px;align-items:center;margin-top:32px}
+.mb-lock{font-size:52px;flex-shrink:0}
+.mb-text h3{font-size:20px;font-weight:700;margin-bottom:8px}
+.mb-text p{font-size:14px;color:var(--muted2);line-height:1.8;max-width:520px}
+.mb-btn{flex-shrink:0}
+
+/* LETTER */
+.letter-box{background:var(--dark3);border:1px solid var(--border);border-radius:18px;padding:50px 56px;position:relative;overflow:hidden}
+.letter-box::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2),transparent)}
+.letter-quote{font-family:var(--display);font-size:clamp(18px,2.5vw,26px);font-weight:700;color:var(--gold);margin-bottom:28px;line-height:1.4;border-right:4px solid var(--gold);padding-right:20px}
+.letter-body p{font-size:15px;color:var(--muted2);line-height:2;margin-bottom:18px}
+.letter-sig{display:flex;align-items:center;gap:14px;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)}
+.letter-av{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dim),rgba(201,168,76,0.25));border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:900;color:var(--gold);font-size:18px}
+.letter-name{font-size:16px;font-weight:700}
+.letter-title{font-size:12px;color:var(--muted);margin-top:2px}
+
+/* FEATURES GRID */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.feat-card{background:var(--dark3);border:1px solid var(--border);border-radius:13px;padding:28px;transition:all .25s}
+.feat-card:hover{border-color:rgba(201,168,76,0.3);transform:translateY(-3px)}
+.feat-icon{font-size:32px;margin-bottom:14px}
+.feat-title{font-size:15px;font-weight:700;margin-bottom:8px}
+.feat-desc{font-size:13px;color:var(--muted2);line-height:1.75}
+
+/* ===================== PAGE: SIGNALS ===================== */
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.fb{background:none;border:1px solid var(--border);color:var(--muted2);font-family:var(--font);font-size:12px;font-weight:600;padding:7px 16px;border-radius:20px;cursor:pointer;transition:all .2s}
+.fb.on,.fb:hover{background:var(--gold-dim);border-color:var(--border2);color:var(--gold)}
+.signals-page-grid{display:grid;grid-template-columns:1fr 320px;gap:24px}
+/* Members-only panel */
+.vip-panel{background:var(--dark3);border:1px solid var(--border2);border-radius:14px;overflow:hidden}
+.vip-panel-header{padding:18px 20px;border-bottom:1px solid var(--border);background:var(--dark4);display:flex;align-items:center;gap:10px}
+.vip-label{font-size:13px;font-weight:700;color:var(--gold)}
+.vip-sub{font-size:11px;color:var(--muted)}
+.vip-lock-body{padding:32px 24px;text-align:center}
+.vip-lock-icon{font-size:44px;margin-bottom:16px}
+.vip-lock-title{font-size:16px;font-weight:700;margin-bottom:10px}
+.vip-lock-desc{font-size:13px;color:var(--muted2);line-height:1.75;margin-bottom:20px}
+
+/* ===================== PAGE: PLANS ===================== */
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.plan-card{background:var(--dark3);border:1px solid var(--border);border-radius:16px;padding:36px 28px;position:relative;transition:all .25s}
+.plan-card:hover{transform:translateY(-4px);border-color:rgba(201,168,76,0.3)}
+.plan-card.pro{border-color:var(--gold)}
+.plan-card.pro::before{content:'الأكثر طلباً';position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;font-size:10px;font-weight:800;padding:4px 16px;border-radius:20px;white-space:nowrap;letter-spacing:.5px}
+.plan-name{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.plan-price{font-family:var(--mono);font-size:46px;font-weight:500;color:var(--gold);line-height:1}
+.plan-price sup{font-size:20px}
+.plan-price sub{font-size:15px;color:var(--muted);font-family:var(--font);font-weight:400}
+.plan-period{font-size:12px;color:var(--muted);margin-top:4px;margin-bottom:22px}
+.plan-div{height:1px;background:var(--border);margin-bottom:22px}
+.plan-feat{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:30px}
+.plan-feat li{font-size:13px;color:var(--muted2);display:flex;gap:10px;align-items:flex-start}
+.plan-feat .ck{color:var(--green);font-size:11px;margin-top:2px;flex-shrink:0}
+.plan-feat .xk{color:var(--muted);font-size:11px;margin-top:2px;flex-shrink:0}
+.plan-btn{width:100%;padding:13px;border-radius:9px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.pb-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;border:none;box-shadow:0 4px 20px rgba(201,168,76,0.28)}
+.pb-gold:hover{opacity:.88}
+.pb-out{background:transparent;border:1px solid var(--border2);color:var(--text)}
+.pb-out:hover{border-color:var(--gold);color:var(--gold)}
+.crypto-box{background:var(--dark3);border:1px solid var(--border);border-radius:13px;padding:28px 32px;margin-top:28px;display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+.crypto-coins{display:flex;gap:10px;flex-wrap:wrap}
+.coin{background:var(--dark4);border:1px solid var(--border);border-radius:8px;padding:8px 16px;font-family:var(--mono);font-size:13px;font-weight:500;color:var(--gold)}
+
+/* ===================== PAGE: RESULTS ===================== */
+.results-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:36px}
+.rs{background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:22px;text-align:center}
+.rs .n{font-family:var(--mono);font-size:32px;font-weight:500;color:var(--gold)}
+.rs .l{font-size:11px;color:var(--muted);margin-top:5px}
+.rtable{width:100%;border-collapse:collapse}
+.rtable th{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1px;padding:10px 16px;border-bottom:1px solid var(--border);text-align:right}
+.rtable td{padding:13px 16px;border-bottom:1px solid rgba(201,168,76,0.06);font-size:13px}
+.rtable tr:hover td{background:rgba(201,168,76,0.025)}
+.bw{background:rgba(34,200,122,0.12);color:var(--green);border:1px solid rgba(34,200,122,0.2);font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px}
+.bl{background:rgba(232,69,90,0.12);color:var(--red);border:1px solid rgba(232,69,90,0.2);font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px}
+
+/* ===================== PAGE: ARTICLES ===================== */
+.art-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+.art-card{background:var(--dark3);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:all .25s}
+.art-card:hover{border-color:rgba(201,168,76,0.3);transform:translateY(-3px)}
+.art-img{height:175px;display:flex;align-items:center;justify-content:center;font-size:54px}
+.art-body{padding:22px}
+.art-tag{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+.art-title{font-size:16px;font-weight:700;margin-bottom:10px;line-height:1.4}
+.art-exc{font-size:13px;color:var(--muted2);line-height:1.7;margin-bottom:14px}
+.art-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+.art-av{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;margin-left:5px}
+
+/* ARTICLE DETAIL */
+.ad-wrap{max-width:760px;margin:0 auto}
+.ad-tag{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
+.ad-title{font-family:var(--display);font-size:clamp(26px,4vw,44px);font-weight:900;line-height:1.1;margin-bottom:16px}
+.ad-byline{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;margin-bottom:26px;flex-wrap:wrap}
+.ad-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.ad-hero{height:260px;border-radius:14px;margin-bottom:36px;display:flex;align-items:center;justify-content:center;font-size:80px;background:var(--dark3);border:1px solid var(--border)}
+.ad-body p{font-size:15px;color:var(--muted2);line-height:2;margin-bottom:20px}
+.ad-body h3{font-size:19px;font-weight:700;color:var(--text);margin:32px 0 12px}
+.ad-body blockquote{border-right:4px solid var(--gold);padding:12px 20px;margin:24px 0;font-family:var(--display);font-size:18px;color:var(--muted2);font-style:italic;background:rgba(201,168,76,0.04);border-radius:0 8px 8px 0}
+.hbox{background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin:24px 0}
+.hbox p{margin:0;font-size:14px;color:var(--muted2)}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.about-card{background:var(--dark3);border:1px solid var(--border2);border-radius:18px;padding:40px;text-align:center}
+.about-logo-big{font-family:var(--display);font-size:56px;font-weight:900;color:var(--gold);letter-spacing:4px;margin-bottom:6px}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.team-card{background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center}
+.team-av{width:54px;height:54px;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;border:2px solid var(--border2)}
+
+/* REGISTER */
+.reg-wrap{max-width:640px;margin:0 auto}
+.reg-card{background:var(--dark3);border:1px solid var(--border);border-radius:16px;padding:44px 48px}
+.reg-steps{display:flex;margin-bottom:36px;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.rst{flex:1;padding:10px;text-align:center;font-size:12px;font-weight:600;color:var(--muted);transition:all .3s}
+.rst.on{background:var(--gold-dim);color:var(--gold);border-bottom:2px solid var(--gold)}
+.rst.done{color:var(--green)}
+.fg{margin-bottom:20px}
+.fg label{display:block;font-size:13px;font-weight:600;color:var(--muted2);margin-bottom:8px}
+.fi{width:100%;background:var(--dark4);border:1px solid var(--border);border-radius:9px;padding:13px 16px;color:var(--text);font-family:var(--font);font-size:14px;outline:none;transition:border-color .2s}
+.fi:focus{border-color:rgba(201,168,76,0.4)}
+.fi::placeholder{color:var(--muted)}
+.goog-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;background:var(--dark4);border:1px solid var(--border2);border-radius:9px;padding:13px;color:var(--text);font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;margin-bottom:20px;transition:all .2s}
+.goog-btn:hover{background:var(--dark5);border-color:rgba(201,168,76,0.4)}
+.div-or{text-align:center;color:var(--muted);font-size:12px;margin:16px 0;position:relative}
+.div-or::before,.div-or::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:var(--border)}
+.div-or::before{right:0}.div-or::after{left:0}
+.req-box{background:rgba(232,69,90,0.07);border:1px solid rgba(232,69,90,0.25);border-radius:10px;padding:18px 20px;margin-bottom:24px;font-size:13px;color:var(--muted2);line-height:1.8}
+.req-box strong{color:var(--red)}
+.ck-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:14px}
+.ck-row input{margin-top:3px;accent-color:var(--gold);width:15px;height:15px;flex-shrink:0}
+.ck-row label{font-size:13px;color:var(--muted2);line-height:1.6}
+
+/* TERMS */
+.terms-wrap{max-width:820px;margin:0 auto}
+.law-box{background:linear-gradient(135deg,rgba(232,69,90,0.08),rgba(201,168,76,0.06));border:1px solid rgba(232,69,90,0.28);border-radius:14px;padding:32px 36px;margin-bottom:44px;display:flex;gap:18px;align-items:flex-start}
+.law-title{font-size:17px;font-weight:700;color:var(--red);margin-bottom:8px}
+.law-text{font-size:14px;color:var(--muted2);line-height:1.85}
+.terms-sec{margin-bottom:34px}
+.terms-sec h3{font-size:16px;font-weight:700;color:var(--gold);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.terms-sec p,.terms-sec li{font-size:14px;color:var(--muted2);line-height:1.9;margin-bottom:8px}
+.terms-sec ul{padding-right:18px}
+
+/* FAQ */
+.faq-wrap{max-width:780px;margin:0 auto}
+.faq-item{border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden}
+.faq-q{padding:18px 22px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-size:14px;font-weight:600;transition:background .2s}
+.faq-q:hover{background:rgba(201,168,76,0.04)}
+.faq-q .arr{color:var(--gold);font-size:18px;transition:transform .3s;flex-shrink:0}
+.faq-a{padding:0 22px;max-height:0;overflow:hidden;transition:all .35s;font-size:13px;color:var(--muted2);line-height:1.85}
+.faq-item.open .faq-a{padding:0 22px 18px;max-height:320px}
+.faq-item.open .arr{transform:rotate(45deg)}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+.contact-info{background:var(--dark3);border:1px solid var(--border);border-radius:14px;padding:32px}
+.ci{display:flex;gap:14px;align-items:flex-start;margin-bottom:20px}
+.ci-icon{width:38px;height:38px;background:var(--gold-dim);border:1px solid var(--border2);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.ci-l{font-size:11px;color:var(--muted);margin-bottom:3px}
+.ci-v{font-size:14px;font-weight:600}
+
+/* CHATBOT */
+.cb-fab{position:fixed;bottom:28px;left:28px;width:56px;height:56px;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 24px rgba(201,168,76,0.4);z-index:999;transition:transform .2s}
+.cb-fab:hover{transform:scale(1.08)}
+.cb-win{position:fixed;bottom:96px;left:28px;width:340px;background:var(--dark2);border:1px solid var(--border2);border-radius:16px;overflow:hidden;z-index:998;display:none;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+.cb-win.open{display:flex}
+.cb-head{background:var(--dark3);border-bottom:1px solid var(--border);padding:14px 18px;display:flex;align-items:center;gap:10px}
+.cb-av{width:34px;height:34px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px}
+.cb-close{margin-right:auto;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer}
+.cb-msgs-box{height:280px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.cb-msgs-box::-webkit-scrollbar{width:3px}
+.cb-msgs-box::-webkit-scrollbar-thumb{background:var(--border)}
+.cb-msg{max-width:84%;font-size:12.5px;line-height:1.6;padding:9px 13px;border-radius:10px}
+.cb-msg.bot{background:var(--dark4);border:1px solid var(--border);align-self:flex-start;border-radius:4px 10px 10px 10px}
+.cb-msg.user{background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.25);align-self:flex-end;border-radius:10px 4px 10px 10px}
+.cb-sugs{padding:0 12px 10px;display:flex;gap:6px;flex-wrap:wrap}
+.cb-sug{background:var(--dark4);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:11px;color:var(--muted2);cursor:pointer;transition:all .2s}
+.cb-sug:hover{border-color:var(--gold);color:var(--gold)}
+.cb-inp-row{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px}
+.cb-inp{flex:1;background:var(--dark3);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:var(--font);font-size:12px;outline:none}
+.cb-inp:focus{border-color:rgba(201,168,76,0.35)}
+.cb-send{background:var(--gold);border:none;border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:14px}
+
+/* FOOTER */
+footer{background:var(--dark2);border-top:1px solid var(--border);padding:32px 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-links button{background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;margin-right:18px}
+.footer-links button:hover{color:var(--gold)}
+.disc{font-size:11px;color:var(--muted);max-width:300px;line-height:1.6}
+
+@media(max-width:900px){
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .section{padding:56px 20px}
+  .hero{padding:88px 20px 56px}
+  .strategy-wrap,.about-grid,.contact-grid{grid-template-columns:1fr}
+  .plans-grid{grid-template-columns:1fr}
+  .results-summary{grid-template-columns:repeat(2,1fr)}
+  .hero-stats{flex-direction:column}
+  .hs{border-left:none;border-top:1px solid var(--border)}
+  .hs:first-child{border-top:none}
+  .team-grid{grid-template-columns:1fr 1fr}
+  .reg-card{padding:28px 20px}
+  .cb-win{width:calc(100vw - 40px);left:20px}
+  .signals-page-grid{grid-template-columns:1fr}
+  .members-banner{flex-direction:column;text-align:center}
+  footer{padding:28px 20px}
+  .letter-box{padding:32px 28px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="go('home')">
+    <div class="logo-mark">AXL</div>
+    <div>
+      <div class="logo-text">AXL</div>
+      <div class="logo-sub">by Alaa</div>
+    </div>
+  </div>
+  <div class="nav-links" id="navlinks">
+    <button class="nl on" onclick="go('home')">الرئيسية</button>
+    <button class="nl" onclick="go('signals')">الإشارات</button>
+    <button class="nl" onclick="go('strategy')">الاستراتيجية</button>
+    <button class="nl" onclick="go('plans')">الخطط</button>
+    <button class="nl" onclick="go('results')">النتائج</button>
+    <button class="nl" onclick="go('articles')">المقالات</button>
+    <button class="nl" onclick="go('about')">من نحن</button>
+    <button class="nl" onclick="go('faq')">الأسئلة</button>
+  </div>
+  <div class="nav-right">
+    <button class="btn-login" onclick="go('register')">تسجيل الدخول</button>
+    <button class="btn-join" onclick="go('register')">انضم الآن</button>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker-bar" id="tbar">
+  <div class="ticker-inner" id="ticker"></div>
+</div>
+
+<!-- ===================== HOME ===================== -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-badge"><span class="pulse"></span>&nbsp; استراتيجية علاء — دقة تجاوزت 90 من 100</div>
+    <h1>
+      ليست إشارات عشوائية.
+      <span class="g">هذه استراتيجيتي الشخصية.</span>
+    </h1>
+    <p class="hero-desc">AXL — منصة تداول أسسها علاء على مدار سنوات من البحث والتجربة الحقيقية. استراتيجية خاصة ثبتت دقتها على أكثر من 90 إشارة من كل 100 — موثقة، حقيقية، لا تزوير.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="go('strategy')">اكتشف الاستراتيجية</button>
+      <button class="btn-outline" onclick="go('results')">شاهد النتائج الموثقة</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><div class="n">90+/100</div><div class="l">دقة استراتيجية علاء</div></div>
+      <div class="hs"><div class="n">14,000+</div><div class="l">متداول محترف</div></div>
+      <div class="hs"><div class="n">5 سنوات</div><div class="l">سجل موثق حقيقي</div></div>
+      <div class="hs"><div class="n">24/7</div><div class="l">إشارات مباشرة</div></div>
+    </div>
+  </div>
+
+  <!-- STRATEGY TEASER -->
+  <div class="section" style="background:var(--dark2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="strategy-wrap">
+      <div class="strategy-card">
+        <div class="strategy-badge">✓ موثق ومُختبر</div>
+        <div class="strategy-num">90+</div>
+        <div class="strategy-label">إشارة ناجحة من كل 100 — استراتيجية علاء الشخصية</div>
+        <div class="strategy-bars">
+          <div class="sbar-row"><span class="sbar-label">الفوركس</span><div class="sbar-track"><div class="sbar-fill" style="width:93%"></div></div><span class="sbar-val">93%</span></div>
+          <div class="sbar-row"><span class="sbar-label">كريبتو</span><div class="sbar-track"><div class="sbar-fill" style="width:91%"></div></div><span class="sbar-val">91%</span></div>
+          <div class="sbar-row"><span class="sbar-label">الذهب</span><div class="sbar-track"><div class="sbar-fill" style="width:95%"></div></div><span class="sbar-val">95%</span></div>
+          <div class="sbar-row"><span class="sbar-label">النفط</span><div class="sbar-track"><div class="sbar-fill" style="width:88%"></div></div><span class="sbar-val">88%</span></div>
+        </div>
+      </div>
+      <div class="strategy-text">
+        <div class="stag">الاستراتيجية</div>
+        <div class="big-q">سنوات من العمل<br>في استراتيجية <em>واحدة متقنة</em>.</div>
+        <p>لم تُولد هذه الاستراتيجية في ليلة واحدة. بنيتها على مدار سنوات من التداول الحقيقي، الفشل، التعديل، والاختبار في ظروف سوق متعددة.</p>
+        <p>ما تراه اليوم هو النسخة المصقولة من آلاف الصفقات المحللة — تجمع بين التحليل التقني، بيانات السيولة، وإشارات الزخم المؤسسي.</p>
+        <div class="strategy-points">
+          <div class="sp"><div class="sp-icon">🎯</div><div class="sp-text"><strong>دقة مُركّبة:</strong> كل إشارة تمر بثلاث طبقات تأكيد قبل النشر</div></div>
+          <div class="sp"><div class="sp-icon">🛡️</div><div class="sp-text"><strong>إدارة المخاطر أولاً:</strong> وقف الخسارة واضح في كل إشارة قبل الهدف</div></div>
+          <div class="sp"><div class="sp-icon">📊</div><div class="sp-text"><strong>R/R لا يقل عن 1:2:</strong> لا إشارة إلا إذا كانت نسبة العائد/المخاطرة مجدية</div></div>
+        </div>
+        <button class="btn-primary" style="margin-top:28px" onclick="go('strategy')">تعمق في الاستراتيجية ←</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNALS PREVIEW -->
+  <div class="section">
+    <div class="sh">
+      <div class="stag">مباشر الآن</div>
+      <h2 class="stitle">إشارات اليوم</h2>
+      <p class="ssub">نماذج من إشارات AXL الحية. الأعضاء المشتركون يحصلون على الإشارات كاملة مع دردشة VIP خاصة.</p>
+    </div>
+    <div id="home-sigs"></div>
+    <!-- Members only banner instead of public chat -->
+    <div class="members-banner">
+      <div class="mb-lock">🔒</div>
+      <div class="mb-text">
+        <h3>غرفة الدردشة — للأعضاء حصراً</h3>
+        <p>غرفة الدردشة ومناقشات الإشارات متاحة فقط للمشتركين المُعتمدين في AXL. انضم اليوم للوصول إلى مجتمع المتداولين المحترفين والتواصل المباشر مع علاء وفريق AXL.</p>
+      </div>
+      <div class="mb-btn">
+        <button class="btn-primary" onclick="go('register')">انضم للحصول على الوصول</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LETTER -->
+  <div class="section" style="background:var(--dark2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div style="max-width:800px;margin:0 auto;text-align:center;margin-bottom:40px">
+      <div class="stag">كلمة علاء</div>
+      <h2 class="stitle">رسالة شخصية من مؤسس AXL</h2>
+    </div>
+    <div class="letter-box" style="max-width:800px;margin:0 auto">
+      <div class="letter-quote">"لم أبنِ AXL لأبيع إشارات — بنيتها لأشارك منهجية عملت معي سنوات، مع من يستحق الاستفادة منها."</div>
+      <div class="letter-body">
+        <p>أيها المتداول، اسمي علاء، وأنا مؤسس AXL. قضيت سنوات في تطوير استراتيجية تداول خاصة بي — اختبرتها في ظروف السوق الأكثر تقلباً، وصقلتها عبر آلاف الصفقات الحقيقية.</p>
+        <p>اليوم، نسبة نجاح هذه الاستراتيجية تتجاوز 90 إشارة من كل 100. ليس ادعاءً — بل سجل موثق يمكنك مراجعته بنفسك.</p>
+        <p>لكنني أريد أن أكون صريحاً: هذه المنصة ليست لمن يبحث عن طريق سهل. أشترط أن تكون قد تداولت بحساب حقيقي لسنة على الأقل — لأن الإشارة الجيدة في يد غير مستعدة لن تفيدك.</p>
+        <p>إذا كنت جاهزاً، أرحب بك في AXL. هذا ليس مجرد اشتراك — هذا وصول إلى منهجيتي الكاملة.</p>
+      </div>
+      <div class="letter-sig">
+        <div class="letter-av">ع</div>
+        <div>
+          <div class="letter-name">علاء — مؤسس AXL</div>
+          <div class="letter-title">متداول محترف · مطور استراتيجية AXL الخاصة · 2020</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="section">
+    <div class="sh c">
+      <div class="stag">مميزات AXL</div>
+      <h2 class="stitle">ما يجعل AXL مختلفاً</h2>
+      <p class="ssub">منصة واحدة. استراتيجية واحدة. مؤسس واحد يقف خلف كل إشارة.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="feat-icon">👤</div><div class="feat-title">استراتيجية شخصية لعلاء</div><div class="feat-desc">ليست خوارزمية مجهولة — استراتيجية حقيقية بناها علاء بنفسه عبر سنوات من التداول الفعلي في الأسواق.</div></div>
+      <div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-title">90+ من 100 دقة موثقة</div><div class="feat-desc">سجل نتائج كامل ومتاح للمراجعة. لا أرقام منتقاة — كل الصفقات موثقة بتاريخ ووقت.</div></div>
+      <div class="feat-card"><div class="feat-icon">🔒</div><div class="feat-title">مجتمع VIP مغلق</div><div class="feat-desc">غرفة الدردشة والنقاشات حصرية للأعضاء المُعتمدين فقط. بيئة متداولين محترفين بلا ضوضاء.</div></div>
+      <div class="feat-card"><div class="feat-icon">🌍</div><div class="feat-title">دفع عالمي بالكريبتو</div><div class="feat-desc">انضم من أي مكان في العالم. الدفع بـ BTC، ETH، USDT وغيرها — فوري وآمن.</div></div>
+      <div class="feat-card"><div class="feat-icon">⚖️</div><div class="feat-title">إدارة مخاطر صارمة</div><div class="feat-desc">كل إشارة تحتوي على وقف خسارة وهدف ونسبة R/R واضحة. الحماية أولاً، الربح ثانياً.</div></div>
+      <div class="feat-card"><div class="feat-icon">🤖</div><div class="feat-title">مساعد ذكي 24/7</div><div class="feat-desc">شات بوت AXL AI يجيب على أسئلتك حول المنصة والإشارات في أي وقت.</div></div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="section" style="text-align:center;background:var(--dark2);border-top:1px solid var(--border)">
+    <h2 class="stitle">مستعد للتداول بمنهجية علاء؟</h2>
+    <p style="color:var(--muted2);font-size:15px;margin:16px auto 36px;max-width:500px;line-height:1.85">تقدم بطلبك اليوم. يُشترط سنة خبرة حقيقية — من جاز الشرط، وجد منصة لا مثيل لها.</p>
+    <button class="btn-primary" onclick="go('register')">تقدم بطلب الانضمام</button>
+    <p style="font-size:12px;color:var(--muted);margin-top:14px">يُشترط خبرة تداول حقيقي لسنة كاملة · الدفع بالعملات الرقمية فقط</p>
+  </div>
+
+  <footer>
+    <div>
+      <div style="font-family:var(--display);font-size:22px;font-weight:900;color:var(--gold);letter-spacing:2px;margin-bottom:4px">AXL</div>
+      <div style="font-size:12px;color:var(--muted)">© 2025 AXL by Alaa — جميع الحقوق محفوظة</div>
+    </div>
+    <div class="footer-links">
+      <button onclick="go('terms')">الشروط والأحكام</button>
+      <button onclick="go('faq')">الأسئلة الشائعة</button>
+      <button onclick="go('contact')">تواصل معنا</button>
+    </div>
+    <div class="disc">التداول في الأسواق المالية ينطوي على مخاطر عالية. الإشارات لأغراض تعليمية ومرجعية فقط وليست نصيحة مالية.</div>
+  </footer>
+</div>
+
+<!-- ===================== STRATEGY PAGE ===================== -->
+<div class="page" id="page-strategy">
+  <div style="height:68px"></div>
+  <div class="section">
+    <div class="sh c">
+      <div class="stag">الاستراتيجية الحصرية</div>
+      <h2 class="stitle">استراتيجية AXL — بقلم علاء</h2>
+      <p class="ssub">منهجية تداول شخصية طورها علاء على مدار سنوات من العمل الميداني الحقيقي في الأسواق.</p>
+    </div>
+
+    <div style="max-width:860px;margin:0 auto">
+      <!-- BIG NUMBER -->
+      <div style="background:linear-gradient(135deg,var(--dark3),var(--dark4));border:1px solid var(--border2);border-radius:20px;padding:48px;text-align:center;margin-bottom:32px;position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(34,200,122,0.06),transparent 70%)"></div>
+        <div style="font-family:var(--mono);font-size:100px;font-weight:500;background:linear-gradient(135deg,var(--green),#5FFFC4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:8px">90+</div>
+        <div style="font-size:18px;color:var(--muted2);margin-bottom:4px">إشارة ناجحة من كل 100</div>
+        <div style="font-size:13px;color:var(--muted);font-family:var(--mono)">موثق على مدار 5 سنوات من التداول الحقيقي</div>
+      </div>
+
+      <!-- BREAKDOWN -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:32px">
+        <div style="background:var(--dark3);border:1px solid var(--border);border-radius:13px;padding:26px">
+          <div style="font-size:13px;color:var(--muted);margin-bottom:16px;letter-spacing:.5px;text-transform:uppercase;font-size:11px">الدقة حسب السوق</div>
+          <div class="strategy-bars">
+            <div class="sbar-row"><span class="sbar-label">الذهب</span><div class="sbar-track"><div class="sbar-fill" style="width:95%"></div></div><span class="sbar-val">95%</span></div>
+            <div class="sbar-row"><span class="sbar-label">فوركس</span><div class="sbar-track"><div class="sbar-fill" style="width:93%"></div></div><span class="sbar-val">93%</span></div>
+            <div class="sbar-row"><span class="sbar-label">كريبتو</span><div class="sbar-track"><div class="sbar-fill" style="width:91%"></div></div><span class="sbar-val">91%</span></div>
+            <div class="sbar-row"><span class="sbar-label">نفط</span><div class="sbar-track"><div class="sbar-fill" style="width:88%"></div></div><span class="sbar-val">88%</span></div>
+          </div>
+        </div>
+        <div style="background:var(--dark3);border:1px solid var(--border);border-radius:13px;padding:26px">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:16px;letter-spacing:.5px;text-transform:uppercase">مؤشرات الاستراتيجية</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:var(--muted2)">متوسط R/R</span><span style="font-family:var(--mono);color:var(--green)">1:2.4</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:var(--muted2)">مخاطرة لكل صفقة</span><span style="font-family:var(--mono);color:var(--gold)">1% — 2%</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:var(--muted2)">طبقات التأكيد</span><span style="font-family:var(--mono);color:var(--gold)">3 طبقات</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:var(--muted2)">إشارات/يوم</span><span style="font-family:var(--mono);color:var(--gold)">2 — 6</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:var(--muted2)">الإطار الزمني الرئيسي</span><span style="font-family:var(--mono);color:var(--gold)">H4 + H1</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PILLARS -->
+      <div style="margin-bottom:32px">
+        <h3 style="font-size:20px;font-weight:700;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)">أعمدة الاستراتيجية الثلاثة</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+          <div style="background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:24px">
+            <div style="font-size:28px;margin-bottom:12px">📐</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:8px">الهيكل السعري</div>
+            <div style="font-size:13px;color:var(--muted2);line-height:1.75">تحليل عميق لهيكل السوق: مستويات الدعم والمقاومة المؤسسية، مناطق السيولة، وتشكيلات الارتداد الموثوقة.</div>
+          </div>
+          <div style="background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:24px">
+            <div style="font-size:28px;margin-bottom:12px">🔁</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:8px">تأكيد متعدد الإطارات</div>
+            <div style="font-size:13px;color:var(--muted2);line-height:1.75">لا إشارة إلا بعد توافق H4 وH1 في نفس الاتجاه. التناقض يعني لا دخول — مهما بدت الفرصة جذابة.</div>
+          </div>
+          <div style="background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:24px">
+            <div style="font-size:28px;margin-bottom:12px">⚖️</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:8px">إدارة المخاطر الحديدية</div>
+            <div style="font-size:13px;color:var(--muted2);line-height:1.75">حد أقصى 2% مخاطرة لكل صفقة. R/R لا يقل عن 1:2. وقف الخسارة يُحدَّد قبل الهدف دائماً.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUOTE -->
+      <div style="background:linear-gradient(135deg,rgba(201,168,76,0.07),rgba(201,168,76,0.03));border:1px solid var(--border2);border-radius:14px;padding:36px 40px;text-align:center;margin-bottom:32px">
+        <div style="font-family:var(--display);font-size:22px;font-weight:700;line-height:1.5;color:var(--text);margin-bottom:16px">"أنا لا أبحث عن الصفقة المثالية — أبحث عن الصفقة التي تستحق المخاطرة."</div>
+        <div style="font-size:13px;color:var(--muted)">علاء — مؤسس AXL</div>
+      </div>
+
+      <div style="text-align:center">
+        <p style="font-size:14px;color:var(--muted2);margin-bottom:24px">الاستراتيجية كاملة متاحة للأعضاء المُعتمدين في AXL — مع شرح مفصل لكل ركيزة وأمثلة حية.</p>
+        <button class="btn-primary" onclick="go('register')">انضم للوصول الكامل</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== SIGNALS ===================== -->
+<div class="page" id="page-signals">
+  <div style="height:68px"></div>
+  <div class="section">
+    <div class="sh">
+      <div class="stag">مباشر</div>
+      <h2 class="stitle">مركز إشارات AXL</h2>
+      <p class="ssub">إشارات محدثة في الوقت الفعلي عبر جميع الأسواق — مبنية على استراتيجية علاء الشخصية.</p>
+    </div>
+    <div class="filter-row">
+      <button class="fb on" onclick="fSig(this,'all')">الكل</button>
+      <button class="fb" onclick="fSig(this,'buy')">شراء</button>
+      <button class="fb" onclick="fSig(this,'sell')">بيع</button>
+      <button class="fb" onclick="fSig(this,'forex')">فوركس</button>
+      <button class="fb" onclick="fSig(this,'crypto')">كريبتو</button>
+      <button class="fb" onclick="fSig(this,'commodity')">سلع</button>
+    </div>
+    <div class="signals-page-grid">
+      <div id="sigs-full"></div>
+      <!-- VIP panel instead of public chat -->
+      <div class="vip-panel">
+        <div class="vip-panel-header">
+          <div>
+            <div class="vip-label">🔒 غرفة AXL VIP</div>
+            <div class="vip-sub">للأعضاء المشتركين فقط</div>
+          </div>
+        </div>
+        <div class="vip-lock-body">
+          <div class="vip-lock-icon">💬</div>
+          <div class="vip-lock-title">الدردشة حصرية للأعضاء</div>
+          <div class="vip-lock-desc">ناقش الإشارات في الوقت الفعلي مع علاء ومجتمع المتداولين المحترفين في AXL. الوصول للأعضاء المُعتمدين فقط.</div>
+          <button class="btn-primary" onclick="go('register')" style="width:100%">انضم للوصول للدردشة</button>
+          <p style="font-size:11px;color:var(--muted);margin-top:12px">يُشترط خبرة تداول حقيقي سنة كاملة</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== PLANS ===================== -->
+<div class="page" id="page-plans">
+  <div style="height:68px"></div>
+  <div class="section">
+    <div class="sh c">
+      <div class="stag">الاشتراكات</div>
+      <h2 class="stitle">اختر خطتك مع AXL</h2>
+      <p class="ssub">جميع الخطط تمنحك الوصول لاستراتيجية علاء. الدفع بالعملات الرقمية فقط لضمان الوصول العالمي.</p>
+    </div>
+    <div class="plans-grid">
+      <div class="plan-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price"><sup>$</sup>29<sub>/شهر</sub></div>
+        <div class="plan-period">≈ 0.00043 BTC</div>
+        <div class="plan-div"></div>
+        <ul class="plan-feat">
+          <li><span class="ck">✓</span> 3 إشارات يومياً</li>
+          <li><span class="ck">✓</span> وصول لقاعدة المعرفة</li>
+          <li><span class="ck">✓</span> تحليل أسبوعي</li>
+          <li><span class="ck">✓</span> الفوركس والكريبتو</li>
+          <li><span class="xk">✗</span> غرفة VIP المغلقة</li>
+          <li><span class="xk">✗</span> جلسات مع علاء</li>
+          <li><span class="xk">✗</span> تقارير شهرية</li>
+        </ul>
+        <button class="plan-btn pb-out" onclick="go('register')">ابدأ الآن</button>
+      </div>
+      <div class="plan-card pro">
+        <div class="plan-name">Pro Trader</div>
+        <div class="plan-price"><sup>$</sup>79<sub>/شهر</sub></div>
+        <div class="plan-period">≈ 0.00117 BTC</div>
+        <div class="plan-div"></div>
+        <ul class="plan-feat">
+          <li><span class="ck">✓</span> إشارات غير محدودة</li>
+          <li><span class="ck">✓</span> غرفة VIP المغلقة</li>
+          <li><span class="ck">✓</span> تحليل يومي تفصيلي</li>
+          <li><span class="ck">✓</span> تنبيهات Telegram فورية</li>
+          <li><span class="ck">✓</span> جميع الأسواق</li>
+          <li><span class="ck">✓</span> دعم أولوية 24/7</li>
+          <li><span class="xk">✗</span> جلسات خاصة مع علاء</li>
+        </ul>
+        <button class="plan-btn pb-gold" onclick="go('register')">اشترك الآن</button>
+      </div>
+      <div class="plan-card">
+        <div class="plan-name">Elite Desk</div>
+        <div class="plan-price"><sup>$</sup>199<sub>/شهر</sub></div>
+        <div class="plan-period">≈ 0.00295 BTC</div>
+        <div class="plan-div"></div>
+        <ul class="plan-feat">
+          <li><span class="ck">✓</span> كل مميزات Pro</li>
+          <li><span class="ck">✓</span> جلسات خاصة أسبوعية مع علاء</li>
+          <li><span class="ck">✓</span> شرح مفصل لكل إشارة</li>
+          <li><span class="ck">✓</span> مدير حساب شخصي</li>
+          <li><span class="ck">✓</span> وصول مبكر للإشارات</li>
+          <li><span class="ck">✓</span> تقارير شهرية PDF</li>
+          <li><span class="ck">✓</span> الاستراتيجية كاملة موثقة</li>
+        </ul>
+        <button class="plan-btn pb-out" onclick="go('register')">اشترك الآن</button>
+      </div>
+    </div>
+    <div class="crypto-box">
+      <div style="flex:1">
+        <h4 style="font-size:15px;font-weight:700;margin-bottom:6px">💎 الدفع بالكريبتو فقط</h4>
+        <p style="font-size:13px;color:var(--muted2);line-height:1.7">وصول عالمي بلا قيود مصرفية أو جغرافية. الأسعار بالدولار الأمريكي وتُحوَّل تلقائياً لما يعادلها من الكريبتو وقت الدفع.</p>
+      </div>
+      <div class="crypto-coins">
+        <div class="coin">₿ BTC</div>
+        <div class="coin">Ξ ETH</div>
+        <div class="coin">◎ USDT</div>
+        <div class="coin">◈ USDC</div>
+        <div class="coin">◎ BNB</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== RESULTS ===================== -->
+<div class="page" id="page-results">
+  <div style="height:68px"></div>
+  <div class="section">
+    <div class="sh">
+      <div class="stag">الشفافية الكاملة</div>
+      <h2 class="stitle">سجل نتائج AXL الموثق</h2>
+      <p class="ssub">كل إشارة موثقة بوقتها ونتيجتها. لا انتقاء، لا تزوير.</p>
+    </div>
+    <div class="results-summary">
+      <div class="rs"><div class="n">91.4%</div><div class="l">متوسط الدقة (2024)</div></div>
+      <div class="rs"><div class="n">4,600+</div><div class="l">إشارة ناجحة (5 سنوات)</div></div>
+      <div class="rs"><div class="n">+36.8%</div><div class="l">متوسط العائد الشهري</div></div>
+      <div class="rs"><div class="n">1:2.4</div><div class="l">متوسط نسبة R/R</div></div>
+    </div>
+    <div style="background:var(--dark3);border:1px solid var(--border);border-radius:14px;overflow:hidden">
+      <div style="padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
+        <span style="font-size:14px;font-weight:700">آخر الإشارات المنفذة</span>
+        <span style="font-size:11px;color:var(--muted);font-family:var(--mono)">آخر تحديث: الآن</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="rtable" id="rtable"></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ARTICLES ===================== -->
+<div class="page" id="page-articles">
+  <div style="height:68px"></div>
+  <div class="section">
+    <div class="sh c">
+      <div class="stag">المعرفة قوة</div>
+      <h2 class="stitle">مقالات من أساطير التداول</h2>
+      <p class="ssub">إدارة المخاطر والتحكم النفسي — من كبار المتداولين العالميين.</p>
+    </div>
+    <div class="art-grid" id="artgrid"></div>
+  </div>
+</div>
+
+<!-- ARTICLE DETAIL -->
+<div class="page" id="page-article-detail">
+  <div style="height:68px"></div>
+  <div class="section">
+    <button onclick="go('articles')" style="background:none;border:none;color:var(--gold);font-size:13px;cursor:pointer;margin-bottom:24px;display:flex;align-items:center;gap:6px">← العودة للمقالات</button>
+    <div class="ad-wrap" id="ad-content"></div>
+  </div>
+</div>
+
+<!-- ===================== ABOUT ===================== -->
+<div class="page" id="page-about">
+  <div style="height:68px"></div>
+  <div class="section">
+    <div class="about-grid">
+      <div>
+        <div class="stag">قصة AXL</div>
+        <div class="big-q" style="font-family:var(--display);font-size:clamp(24px,3.5vw,38px);font-weight:700;line-height:1.3;margin-bottom:22px">مشروع شخصي<br>تحوّل إلى <span style="color:var(--gold)">منصة عالمية</span>.</div>
+        <p style="color:var(--muted2);font-size:15px;line-height:1.9;margin-bottom:16px">AXL بدأت كمشروع شخصي لعلاء — متداول يوثّق صفقاته ونتائجه لنفسه. عندما أصرّ أصدقاؤه على مشاركة إشاراته، بدأت قصة AXL.</p>
+        <p style="color:var(--muted2);font-size:15px;line-height:1.9;margin-bottom:16px">اليوم AXL تخدم أكثر من 14,000 متداول في 65 دولة، وما زالت تحتفظ بروحها الأصيلة: منهجية واضحة، شفافية كاملة، ومعيار دخول صارم.</p>
+        <p style="color:var(--muted2);font-size:15px;line-height:1.9">اسم AXL مستوحى من الحروف الثلاثة الأولى من اسم علاء — تذكيراً بأن هذه المنصة تحمل اسمه وسمعته في كل إشارة.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-logo-big">AXL</div>
+        <div style="font-size:13px;color:var(--muted2);margin-bottom:24px">by Alaa — منصة الإشارات الاحترافية</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="background:var(--dark4);border-radius:9px;padding:16px"><div style="font-family:var(--mono);font-size:22px;color:var(--gold)">65+</div><div style="font-size:11px;color:var(--muted);margin-top:3px">دولة</div></div>
+          <div style="background:var(--dark4);border-radius:9px;padding:16px"><div style="font-family:var(--mono);font-size:22px;color:var(--gold)">5yr</div><div style="font-size:11px;color:var(--muted);margin-top:3px">سجل موثق</div></div>
+          <div style="background:var(--dark4);border-radius:9px;padding:16px"><div style="font-family:var(--mono);font-size:22px;color:var(--gold)">90+</div><div style="font-size:11px;color:var(--muted);margin-top:3px">دقة استراتيجية</div></div>
+          <div style="background:var(--dark4);border-radius:9px;padding:16px"><div style="font-family:var(--mono);font-size:22px;color:var(--gold)">24/7</div><div style="font-size:11px;color:var(--muted);margin-top:3px">إشارات مباشرة</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-grid">
+      <div style="grid-column:1/-1;text-align:center;margin-bottom:24px">
+        <div class="stag">الفريق</div>
+        <h2 class="stitle">من يقف خلف AXL</h2>
+      </div>
+      <div class="team-card">
+        <div class="team-av" style="background:rgba(201,168,76,0.12);border-color:var(--gold);color:var(--gold);font-size:22px">ع</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px">علاء</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:10px">المؤسس — المحلل الرئيسي</div>
+        <div style="font-family:var(--mono);font-size:13px;color:var(--gold);margin-bottom:10px">5+ سنوات خبرة</div>
+        <p style="font-size:12px;color:var(--muted);line-height:1.65">صاحب الاستراتيجية ومطورها. يُشرف شخصياً على كل إشارة وتحليل يصدر عن AXL.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-av" style="background:rgba(34,200,122,0.12);border-color:var(--green);color:var(--green)">SC</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Sofia C.</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:10px">محللة — العملات الرقمية</div>
+        <div style="font-family:var(--mono);font-size:13px;color:var(--gold);margin-bottom:10px">8 سنوات خبرة</div>
+        <p style="font-size:12px;color:var(--muted);line-height:1.65">متخصصة في تحليل On-Chain والبيانات الكمية للعملات الرقمية.</p>
+      </div>
+      <div class="team-card">
+        <div class="team-av" style="background:rgba(232,69,90,0.12);border-color:var(--red);color:var(--red)">KA</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px">Karim A.</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:10px">خبير إدارة المخاطر</div>
+        <div style="font-family:var(--mono);font-size:13px;color:var(--gold);margin-bottom:10px">12 سنة خبرة</div>
+        <p style="font-size:12px;color:var(--muted);line-height:1.65">مختص في تطوير أنظمة إدارة المخاطر للمتداولين المحترفين.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== REGISTER ===================== -->
+<div class="page" id="page-register">
+  <div style="height:68px"></div>
+  <div class="section">
+    <div class="reg-wrap">
+      <div style="text-align:center;margin-bottom:36px">
+        <div class="stag">الانضمام</div>
+        <h2 class="stitle">إنشاء حساب AXL</h2>
+        <p style="color:var(--muted2);font-size:14px">للمتداولين ذوي الخبرة فقط — سنة تداول حقيقي شرط إلزامي</p>
+      </div>
+      <div class="req-box">
+        <strong>⚠️ شرط الانضمام الإلزامي:</strong><br>
+        نقبل فقط المتداولين الذين استوفوا <strong>الشرطين معاً</strong>:<br>
+        ١) <strong>خبرة لا تقل عن 12 شهراً</strong> في التداول الفعلي<br>
+        ٢) <strong>تداول بحساب حقيقي</strong> (الحسابات التجريبية Demo مرفوضة)<br>
+        <em style="font-size:12px;display:block;margin-top:8px">هذا الشرط غير قابل للاستثناء. قد نطلب إثباتاً خلال مراجعة طلبك.</em>
+      </div>
+      <div class="reg-card">
+        <div class="reg-steps">
+          <div class="rst on" id="rs1">١ — التحقق</div>
+          <div class="rst" id="rs2">٢ — البيانات</div>
+          <div class="rst" id="rs3">٣ — التأكيد</div>
+        </div>
+        <div id="rstep1">
+          <p style="font-size:14px;color:var(--muted2);margin-bottom:22px;line-height:1.7">سجّل بـ Google للسرعة والأمان، أو أنشئ حساباً بالبريد الإلكتروني.</p>
+          <button class="goog-btn" onclick="googleReg()">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            المتابعة مع Google
+          </button>
+          <div class="div-or">أو</div>
+          <div class="fg"><label>البريد الإلكتروني</label><input class="fi" type="email" placeholder="trader@example.com"></div>
+          <div class="fg"><label>كلمة المرور</label><input class="fi" type="password" placeholder="••••••••"></div>
+          <button class="btn-primary" style="width:100%;padding:14px" onclick="regNext(2)">التالي ←</button>
+        </div>
+        <div id="rstep2" style="display:none">
+          <div class="fg"><label>الاسم الكامل</label><input class="fi" placeholder="اسمك الكامل"></div>
+          <div class="fg"><label>الدولة</label>
+            <select class="fi" style="appearance:none;cursor:pointer">
+              <option>اختر دولتك</option>
+              <option>المملكة العربية السعودية</option><option>الإمارات</option><option>مصر</option>
+              <option>الكويت</option><option>قطر</option><option>الأردن</option><option>تونس</option>
+              <option>المغرب</option><option>الجزائر</option><option>أخرى</option>
+            </select>
+          </div>
+          <div class="fg"><label>سنوات الخبرة الحقيقية</label>
+            <select class="fi" style="appearance:none;cursor:pointer">
+              <option>اختر</option><option>سنة إلى سنتين</option><option>2 — 5 سنوات</option>
+              <option>5 — 10 سنوات</option><option>أكثر من 10 سنوات</option>
+            </select>
+          </div>
+          <div class="fg"><label>الأسواق التي تتداول بها</label>
+            <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted2);cursor:pointer"><input type="checkbox" style="accent-color:var(--gold)"> فوركس</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted2);cursor:pointer"><input type="checkbox" style="accent-color:var(--gold)"> كريبتو</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted2);cursor:pointer"><input type="checkbox" style="accent-color:var(--gold)"> أسهم</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted2);cursor:pointer"><input type="checkbox" style="accent-color:var(--gold)"> سلع</label>
+            </div>
+          </div>
+          <div class="ck-row"><input type="checkbox" id="ck1"><label for="ck1">أؤكد أنني تداولت بحساب حقيقي لأكثر من سنة كاملة.</label></div>
+          <div class="ck-row"><input type="checkbox" id="ck2"><label for="ck2">أوافق على <button onclick="go('terms')" style="background:none;border:none;color:var(--gold);cursor:pointer;font-size:13px;padding:0">الشروط والأحكام</button> لـ AXL.</label></div>
+          <div style="display:flex;gap:10px">
+            <button class="btn-outline" style="flex:1;padding:13px;border-radius:9px;cursor:pointer;font-family:var(--font)" onclick="regNext(1)">← السابق</button>
+            <button class="btn-primary" style="flex:2;padding:13px" onclick="regNext(3)">إرسال الطلب ←</button>
+          </div>
+        </div>
+        <div id="rstep3" style="display:none;text-align:center">
+          <div style="font-size:60px;margin-bottom:20px">🎉</div>
+          <h3 style="font-size:22px;font-weight:700;margin-bottom:12px;color:var(--gold)">طلبك قيد المراجعة</h3>
+          <p style="font-size:14px;color:var(--muted2);line-height:1.9;margin-bottom:24px">سيراجع علاء وفريق AXL طلبك خلال <strong style="color:var(--text)">24-48 ساعة</strong>.<br>بعد الموافقة ستصلك تعليمات الدفع بالكريبتو.</p>
+          <div style="background:var(--dark4);border:1px solid var(--border);border-radius:10px;padding:18px;text-align:right;margin-bottom:22px;font-size:13px;line-height:1.85;color:var(--muted2)">
+            <strong style="color:var(--text)">الخطوات التالية:</strong><br>
+            ✓ مراجعة طلبك من قِبل علاء<br>
+            ✓ إرسال رابط الدفع بالكريبتو<br>
+            ✓ تفعيل حسابك فور التأكيد<br>
+            ✓ وصول فوري لجميع الإشارات وغرفة VIP
+          </div>
+          <button class="btn-primary" onclick="go('home')">العودة للرئيسية</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== TERMS ===================== -->
+<div class="page" id="page-terms">
+  <div style="height:68px"></div>
+  <div class="section">
+    <div class="terms-wrap">
+      <div style="margin-bottom:32px">
+        <div class="stag">القانونية</div>
+        <h2 class="stitle">الشروط والأحكام</h2>
+        <p style="font-size:12px;color:var(--muted);font-family:var(--mono)">آخر تحديث: يناير 2025</p>
+      </div>
+      <div class="law-box">
+        <div style="font-size:36px;flex-shrink:0">⚖️</div>
+        <div>
+          <div class="law-title">شرط الخبرة — لا استثناء</div>
+          <div class="law-text">
+            <strong>AXL ترفض قطعياً أي طلب انضمام لا يستوفي الشرطين التاليين:</strong><br>
+            <strong>١)</strong> خبرة تداول حقيقي لا تقل عن <strong>12 شهراً كاملة</strong><br>
+            <strong>٢)</strong> تداول موثق بحساب حقيقي بأموال حقيقية — الحسابات التجريبية مرفوضة<br><br>
+            البيانات المزيفة تُعرّض صاحبها للإغلاق الفوري دون استرداد أي رسوم.
+          </div>
+        </div>
+      </div>
+      <div class="terms-sec"><h3>١. طبيعة الخدمة</h3><p>AXL منصة إشارات تداول تحليلية للمتداولين المحترفين. الإشارات ليست نصيحة مالية ملزمة. التداول ينطوي على مخاطر عالية وقد تخسر رأس مالك.</p></div>
+      <div class="terms-sec"><h3>٢. شروط العضوية</h3><ul><li>العمر 18 سنة أو أكثر</li><li>خبرة تداول حقيقي لسنة كاملة</li><li>حساب واحد لكل شخص</li><li>التنازل عن الحسابات محظور</li></ul></div>
+      <div class="terms-sec"><h3>٣. الدفع والاسترداد</h3><p>الدفع بالعملات الرقمية حصراً. الأسعار بالدولار الأمريكي. المبالغ غير قابلة للاسترداد بعد تفعيل الخدمة إلا في حالات الخطأ التقني الموثق.</p></div>
+      <div class="terms-sec"><h3>٤. إخلاء المسؤولية</h3><p>AXL غير مسؤولة عن أي خسائر مالية من تطبيق الإشارات. الأداء السابق لا يضمن نتائج مستقبلية.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== FAQ ===================== -->
+<div class="page" id="page-faq">
+  <div style="height:68px"></div>
+  <div class="section">
+    <div class="sh c">
+      <div class="stag">الأسئلة الشائعة</div>
+      <h2 class="stitle">كل ما تريد معرفته</h2>
+    </div>
+    <div class="faq-wrap" id="faqlist"></div>
+  </div>
+</div>
+
+<!-- ===================== CONTACT ===================== -->
+<div class="page" id="page-contact">
+  <div style="height:68px"></div>
+  <div class="section">
+    <div class="sh"><div class="stag">تواصل</div><h2 class="stitle">نحن هنا لمساعدتك</h2></div>
+    <div class="contact-grid">
+      <div>
+        <div class="fg"><label>الاسم</label><input class="fi" placeholder="اسمك الكامل"></div>
+        <div class="fg"><label>البريد الإلكتروني</label><input class="fi" type="email" placeholder="بريدك الإلكتروني"></div>
+        <div class="fg"><label>الموضوع</label>
+          <select class="fi" style="appearance:none;cursor:pointer">
+            <option>استفسار عن الاشتراك</option><option>مشكلة تقنية</option>
+            <option>سؤال عن الإشارات</option><option>شراكة</option><option>أخرى</option>
+          </select>
+        </div>
+        <div class="fg"><label>الرسالة</label><textarea class="fi" rows="5" placeholder="تفاصيل استفسارك..." style="resize:vertical"></textarea></div>
+        <button class="btn-primary" style="width:100%;padding:14px">إرسال الرسالة</button>
+      </div>
+      <div>
+        <div class="contact-info">
+          <h3 style="font-size:17px;font-weight:700;margin-bottom:20px">معلومات التواصل</h3>
+          <div class="ci"><div class="ci-icon">📧</div><div><div class="ci-l">البريد</div><div class="ci-v">support@axl-trading.io</div></div></div>
+          <div class="ci"><div class="ci-icon">💬</div><div><div class="ci-l">تيليغرام</div><div class="ci-v">@AXL_Official</div></div></div>
+          <div class="ci"><div class="ci-icon">🕐</div><div><div class="ci-l">ساعات الدعم</div><div class="ci-v">24/7 — فرق عالمية</div></div></div>
+          <div class="ci"><div class="ci-icon">⏱</div><div><div class="ci-l">وقت الرد</div><div class="ci-v">أقل من 4 ساعات</div></div></div>
+        </div>
+        <div style="background:var(--dark3);border:1px solid var(--border);border-radius:13px;padding:22px;margin-top:16px;text-align:center">
+          <p style="font-size:13px;color:var(--muted2);margin-bottom:12px">أسئلة سريعة؟ استخدم مساعد AXL الذكي</p>
+          <button class="btn-outline" style="width:100%;padding:10px;border-radius:8px;cursor:pointer;font-family:var(--font)" onclick="document.getElementById('cbfab').click()">فتح AXL AI ←</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHATBOT -->
+<button class="cb-fab" id="cbfab" onclick="toggleCb()">🤖</button>
+<div class="cb-win" id="cbwin">
+  <div class="cb-head">
+    <div class="cb-av">🤖</div>
+    <div><div style="font-size:14px;font-weight:700">AXL AI</div><div style="font-size:10px;color:var(--green)">● متصل الآن</div></div>
+    <button class="cb-close" onclick="toggleCb()">✕</button>
+  </div>
+  <div class="cb-msgs-box" id="cbmsgs"></div>
+  <div class="cb-sugs" id="cbsugs"></div>
+  <div class="cb-inp-row">
+    <input class="cb-inp" id="cbinp" placeholder="اسألني عن AXL..." onkeydown="if(event.key==='Enter')sendCb()">
+    <button class="cb-send" onclick="sendCb()">➤</button>
+  </div>
+</div>
+
+<script>
+// ===== NAVIGATION =====
+const pageIds=['home','strategy','signals','plans','results','articles','article-detail','about','register','terms','faq','contact'];
+const navMap={home:'الرئيسية',signals:'الإشارات',strategy:'الاستراتيجية',plans:'الخطط',results:'النتائج',articles:'المقالات',about:'من نحن',faq:'الأسئلة'};
+
+function go(id){
+  pageIds.forEach(p=>{const e=document.getElementById('page-'+p);if(e)e.classList.remove('active')});
+  const t=document.getElementById('page-'+id);if(t)t.classList.add('active');
+  document.querySelectorAll('.nl').forEach(l=>l.classList.remove('on'));
+  document.querySelectorAll('.nl').forEach(l=>{if(l.textContent.trim()===navMap[id])l.classList.add('on')});
+  window.scrollTo(0,0);
+  const tb=document.getElementById('tbar');
+  if(tb)tb.style.display=id==='home'?'none':'block';
+}
+
+// ===== TICKER =====
+const tdata=[
+  {s:'BTC',p:'67,240',c:'+2.4%',u:1},{s:'ETH',p:'3,520',c:'-1.1%',u:0},
+  {s:'EUR/USD',p:'1.0842',c:'+0.3%',u:1},{s:'GBP/USD',p:'1.2731',c:'-0.2%',u:0},
+  {s:'SOL',p:'152.3',c:'+4.7%',u:1},{s:'XAU',p:'2,318',c:'+0.8%',u:1},
+  {s:'BNB',p:'591',c:'+1.2%',u:1},{s:'USD/JPY',p:'154.6',c:'-0.5%',u:0},
+  {s:'WTI',p:'78.4',c:'+1.1%',u:1},{s:'AAPL',p:'189.2',c:'+0.6%',u:1},
+];
+const tk=document.getElementById('ticker');
+if(tk)tk.innerHTML=[...tdata,...tdata].map(t=>`<div class="ti"><span class="s">${t.s}</span><span>${t.p}</span><span class="${t.u?'u':'d'}">${t.c}</span></div>`).join('');
+
+// ===== SIGNALS =====
+const sigs=[
+  {pair:'BTC/USDT',type:'buy',cat:'crypto',entry:'67,240',tp:'69,800',sl:'66,100',str:85,rr:'1:2.4',time:'منذ 3 دق'},
+  {pair:'EUR/USD',type:'buy',cat:'forex',entry:'1.0842',tp:'1.0920',sl:'1.0790',str:71,rr:'1:1.5',time:'منذ 9 دق'},
+  {pair:'ETH/USDT',type:'sell',cat:'crypto',entry:'3,520',tp:'3,300',sl:'3,640',str:76,rr:'1:1.8',time:'منذ 17 دق'},
+  {pair:'XAU/USD',type:'buy',cat:'commodity',entry:'2,318',tp:'2,370',sl:'2,291',str:79,rr:'1:1.9',time:'منذ 26 دق'},
+  {pair:'GBP/JPY',type:'sell',cat:'forex',entry:'196.40',tp:'194.00',sl:'197.60',str:64,rr:'1:2.0',time:'منذ 34 دق'},
+  {pair:'SOL/USDT',type:'buy',cat:'crypto',entry:'152.3',tp:'165.0',sl:'146.0',str:88,rr:'1:2.1',time:'منذ 41 دق'},
+  {pair:'WTI/USD',type:'buy',cat:'commodity',entry:'78.40',tp:'82.00',sl:'76.50',str:72,rr:'1:1.9',time:'منذ 55 دق'},
+  {pair:'USD/CHF',type:'sell',cat:'forex',entry:'0.9021',tp:'0.8960',sl:'0.9065',str:66,rr:'1:1.4',time:'منذ 1 ساعة'},
+];
+
+function sigCard(s){
+  return`<div class="sig-card ${s.type}">
+    <div class="sc1"><div class="sc-pair">${s.pair}</div><div class="sc-type ${s.type}">${s.type==='buy'?'▲ شراء':'▼ بيع'}</div></div>
+    <div class="sc2">
+      <div class="scf"><div class="k">الدخول</div><div class="v">${s.entry}</div></div>
+      <div class="scf"><div class="k">الهدف</div><div class="v g">${s.tp}</div></div>
+      <div class="scf"><div class="k">وقف الخسارة</div><div class="v r">${s.sl}</div></div>
+    </div>
+    <div class="sc-bar"><div class="sc-bar-f ${s.type}" style="width:${s.str}%"></div></div>
+    <div class="sc-foot"><span>قوة: ${s.str}% · R/R ${s.rr}</span><span>${s.time}</span></div>
+  </div>`;
+}
+
+const hs=document.getElementById('home-sigs');
+if(hs)hs.innerHTML=sigs.slice(0,3).map(sigCard).join('');
+const sf=document.getElementById('sigs-full');
+if(sf)sf.innerHTML=sigs.map(sigCard).join('');
+
+let sigF='all';
+function fSig(btn,f){
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');sigF=f;
+  const el=document.getElementById('sigs-full');
+  const filtered=f==='all'?sigs:sigs.filter(s=>s.type===f||s.cat===f);
+  if(el)el.innerHTML=filtered.map(sigCard).join('');
+}
+
+// ===== RESULTS TABLE =====
+const rdata=[
+  {pair:'BTC/USDT',type:'buy',entry:'65,100',exit:'68,400',date:'28 ينا',pl:'+3,300$',res:'win'},
+  {pair:'EUR/USD',type:'buy',entry:'1.0780',exit:'1.0865',date:'27 ينا',pl:'+85 نقطة',res:'win'},
+  {pair:'ETH/USDT',type:'sell',entry:'3,680',exit:'3,490',date:'26 ينا',pl:'+190$',res:'win'},
+  {pair:'GBP/JPY',type:'sell',entry:'197.20',exit:'194.80',date:'25 ينا',pl:'+240 نقطة',res:'win'},
+  {pair:'XAU/USD',type:'buy',entry:'2,290',exit:'2,280',date:'24 ينا',pl:'-10$',res:'loss'},
+  {pair:'SOL/USDT',type:'buy',entry:'148.0',exit:'158.5',date:'23 ينا',pl:'+10.5$',res:'win'},
+  {pair:'WTI/USD',type:'buy',entry:'76.2',exit:'79.8',date:'22 ينا',pl:'+3.6$',res:'win'},
+  {pair:'USD/CHF',type:'sell',entry:'0.9080',exit:'0.9020',date:'21 ينا',pl:'+60 نقطة',res:'win'},
+  {pair:'BTC/USDT',type:'sell',entry:'68,900',exit:'66,400',date:'20 ينا',pl:'+2,500$',res:'win'},
+  {pair:'EUR/GBP',type:'buy',entry:'0.8562',exit:'0.8610',date:'19 ينا',pl:'+48 نقطة',res:'win'},
+];
+const rt=document.getElementById('rtable');
+if(rt){
+  rt.innerHTML=`<thead><tr><th>الزوج</th><th>النوع</th><th>الدخول</th><th>الخروج</th><th>الربح/الخسارة</th><th>التاريخ</th><th>النتيجة</th></tr></thead><tbody>`+
+  rdata.map(r=>`<tr>
+    <td style="font-family:var(--mono);font-weight:500">${r.pair}</td>
+    <td><span style="font-size:11px;color:${r.type==='buy'?'var(--green)':'var(--red)'}">${r.type==='buy'?'▲ شراء':'▼ بيع'}</span></td>
+    <td style="font-family:var(--mono)">${r.entry}</td>
+    <td style="font-family:var(--mono)">${r.exit}</td>
+    <td style="font-family:var(--mono);color:${r.res==='win'?'var(--green)':'var(--red)'}">${r.pl}</td>
+    <td style="color:var(--muted);font-size:12px">${r.date}</td>
+    <td><span class="${r.res==='win'?'bw':'bl'}">${r.res==='win'?'WIN':'LOSS'}</span></td>
+  </tr>`).join('')+'</tbody>';
+}
+
+// ===== ARTICLES =====
+const arts=[
+  {id:0,tag:'إدارة المخاطر',emoji:'📊',bg:'#13182a',title:'قاعدة الـ 1%: سر المتداولين الذين يصمدون عشر سنوات',exc:'يتحدث Paul Tudor Jones عن مبدأه الأول في التداول وكيف أن حماية رأس المال هي الأساس الذي بُنيت عليه ثروته.',author:'Paul Tudor Jones',av:'PJ',ac:'#4CC9F0',ab:'rgba(76,201,240,0.15)',date:'15 يناير 2025',rt:'8 دق'},
+  {id:1,tag:'علم النفس',emoji:'🧠',bg:'#131a13',title:'العدو الأكبر في التداول: النفس البشرية وكيف تسيطر عليها',exc:'Mark Douglas يكشف في كتابه الشهير Trading in the Zone لماذا يفشل المتداولون الأذكياء — والإجابة ليست في التحليل.',author:'Mark Douglas',av:'MD',ac:'#C9A84C',ab:'rgba(201,168,76,0.15)',date:'10 يناير 2025',rt:'12 دق'},
+  {id:2,tag:'استراتيجية',emoji:'🎯',bg:'#2a1319',title:'نسبة المخاطرة/العائد: لماذا تحتاج فقط 34% نجاح لتربح',exc:'Ray Dalio يثبت رياضياً أن التفوق في التداول لا يأتي من الفوز دائماً، بل من تحقيق نسبة R/R صحيحة باستمرار.',author:'Ray Dalio',av:'RD',ac:'#22C87A',ab:'rgba(34,200,122,0.15)',date:'5 يناير 2025',rt:'10 دق'},
+  {id:3,tag:'الانضباط',emoji:'⚙️',bg:'#1a1328',title:'خطة التداول: لماذا الانضباط أهم من الذكاء',exc:'Jesse Livermore خسر وربح ثروات متعددة — وكانت إجابته دائماً واحدة عن سبب الخسارة: تجاهل الخطة.',author:'Jesse Livermore',av:'JL',ac:'#FF6584',ab:'rgba(255,101,132,0.15)',date:'1 يناير 2025',rt:'9 دق'},
+  {id:4,tag:'رأس المال',emoji:'💰',bg:'#28281a',title:'حماية رأس المال أولاً: فلسفة بافيت للمتداولين',exc:'قاعدتا بافيت الذهبيتان اللتان يجهلهما معظم المتداولين — وكيف تطبقهما على التداول قصير المدى.',author:'Warren Buffett',av:'WB',ac:'#E8C97A',ab:'rgba(232,201,122,0.15)',date:'28 ديسمبر 2024',rt:'7 دق'},
+  {id:5,tag:'التداول الكمي',emoji:'📈',bg:'#132228',title:'الانضباط الرياضي: كيف يفكر Jim Simons في المخاطر',exc:'مؤسس Renaissance Technologies يُعلمنا أن التواضع الإحصائي وليس اليقين هو سلاح المتداول الناجح.',author:'Jim Simons',av:'JS',ac:'#6C63FF',ab:'rgba(108,99,255,0.15)',date:'20 ديسمبر 2024',rt:'11 دق'},
+];
+const ag=document.getElementById('artgrid');
+if(ag){
+  ag.innerHTML=arts.map(a=>`<div class="art-card" onclick="showArt(${a.id})">
+    <div class="art-img" style="background:${a.bg}">${a.emoji}</div>
+    <div class="art-body">
+      <div class="art-tag">${a.tag}</div>
+      <div class="art-title">${a.title}</div>
+      <div class="art-exc">${a.exc.substring(0,100)}...</div>
+      <div class="art-meta">
+        <span><span class="art-av" style="background:${a.ab};color:${a.ac}">${a.av}</span>${a.author}</span>
+        <span>${a.rt} قراءة</span>
+      </div>
+    </div>
+  </div>`).join('');
+}
+
+const artContent=[
+  `<p>يُعدّ Paul Tudor Jones واحداً من أعظم المضاربين في تاريخ الأسواق، وبنى ثروته على مبدأ واحد: <strong>لا تخسر رأس المال.</strong></p>
+  <h3>ما هي قاعدة الـ 1%؟</h3>
+  <p>المتداول لا يخاطر بأكثر من 1% من رأس ماله في صفقة واحدة. إذا كان حسابك 10,000$، الخسارة القصوى في أي صفقة 100$ فقط.</p>
+  <blockquote>"الدفاع أهم من الهجوم. المتداولون الذين يصمدون عقوداً يشتركون في شيء واحد: الحماية القصوى لرأس المال."</blockquote>
+  <h3>لماذا تنجح رياضياً؟</h3>
+  <p>إذا خسرت 50% تحتاج 100% لتعود لنقطة البداية. لكن مع قاعدة الـ 1%، يمكنك خسارة 100 صفقة متتالية والبقاء بـ 90% من رأس مالك.</p>
+  <div class="hbox"><p>💡 <strong>تطبيق:</strong> قبل كل صفقة احسب حجم الوقف، وتأكد أن الخسارة لا تتجاوز 1% من رأس مالك. اضبط الحجم وفقاً لذلك.</p></div>`,
+
+  `<p>Mark Douglas كرّس حياته لفهم لماذا يفشل المتداولون الأذكياء. إجابته كانت صادمة: ليس بسبب نقص المعرفة، بل بسبب <strong>طريقة التفكير.</strong></p>
+  <h3>وهم السيطرة</h3>
+  <p>معظم المتداولين يظنون أن التداول مسألة تنبؤ. Douglas يقول عكس ذلك: السوق لا يمكن التنبؤ به بدقة. المهارة هي التعامل مع عدم اليقين.</p>
+  <blockquote>"المتداول المتميز لا يشعر بسعادة عند الربح ولا بألم عند الخسارة بنفس حدة المتداول العادي."</blockquote>
+  <div class="hbox"><p>💡 <strong>التمرين:</strong> احتفظ بيومية تسجّل فيها مشاعرك لحظة كل قرار. ستُفاجأ كم من قراراتك عاطفي لا تحليلي.</p></div>`,
+
+  `<p>Ray Dalio، مؤسس أكبر صناديق التحوط في العالم، يؤمن بمبدأ بسيط لكنه عميق: <strong>الرياضيات لا تكذب.</strong></p>
+  <h3>المعادلة الذهبية</h3>
+  <p>إذا كانت نسبة R/R لديك 1:2، تحتاج فقط 34% نجاح لتربح على المدى البعيد. يعني يمكنك خسارة 66% من صفقاتك وما زلت مربحاً!</p>
+  <blockquote>"لا تعلّم الناس كيف يتنبؤون — علّمهم كيف يديرون المخاطر، وستنجح الاستراتيجية من تلقاء نفسها."</blockquote>
+  <div class="hbox"><p>💡 <strong>قاعدة ذهبية:</strong> لا تدخل صفقة بنسبة R/R أقل من 1.5:1. الأفضل 2:1 أو أعلى.</p></div>`,
+
+  `<p>Jesse Livermore ربح وخسر ثروات متعددة، وعندما سُئل عن سبب خساراته كانت إجابته دائماً: <strong>"ابتعدت عن قواعدي."</strong></p>
+  <h3>خطة التداول: دستورك الشخصي</h3>
+  <p>خطة التداول ليست ورقة — هي العقد الذي تبرمه مع نفسك. تحدد مسبقاً: متى تدخل، متى تخرج، كم تخسر، وما شروط إلغاء الصفقة.</p>
+  <blockquote>"لم أخسر يوماً بسبب تحليل خاطئ. خسرت دائماً لأنني تجاهلت تحليلي الصحيح."</blockquote>
+  <div class="hbox"><p>💡 <strong>العناصر الست:</strong> الإعداد (Setup)، نقطة الدخول، وقف الخسارة، الهدف، حجم الصفقة، وشروط الإلغاء.</p></div>`,
+
+  `<p>Warren Buffett ليس متداولاً كلاسيكياً، لكن فلسفته في حماية رأس المال تنطبق بشكل مذهل على التداول قصير المدى.</p>
+  <h3>القاعدتان الذهبيتان</h3>
+  <p>القاعدة الأولى: لا تخسر المال. القاعدة الثانية: لا تنسَ القاعدة الأولى. ركّز طاقتك على تجنب الخسائر الكبرى أكثر من السعي وراء الأرباح الكبيرة.</p>
+  <blockquote>"الفرق بين المستثمر الناجح والفاشل ليس الذكاء، بل الانضباط عند ظهور الخوف والجشع."</blockquote>
+  <div class="hbox"><p>💡 <strong>التطبيق:</strong> بعد كل شهر، راجع صفقاتك الخاسرة فقط. اسأل: هل كانت هذه الخسارة حتمية؟ التعلم من الخسارة أقوى من الاحتفال بالربح.</p></div>`,
+
+  `<p>Jim Simons، عالم الرياضيات الذي حوّل ألغوريثماته إلى مليارات، يُعلمنا أن التواضع الإحصائي هو أقوى سلاح في الأسواق.</p>
+  <h3>التفكير الاحتمالي</h3>
+  <p>لا توجد صفقة مضمونة 100%. كل صفقة حدث احتمالي. المتداول الذكي لا يبحث عن اليقين — يبحث عن الاحتمال المدفوع بشكل جيد.</p>
+  <blockquote>"نحن لا نتنبأ بالسوق. نجد أنماطاً احتمالية ونستغلها على مدى آلاف الصفقات."</blockquote>
+  <div class="hbox"><p>💡 <strong>الدرس:</strong> فكّر في كل استراتيجية عبر 100 صفقة لا صفقة واحدة. إذا طبقتها 100 مرة، هل ستكون مربحاً؟</p></div>`,
+];
+
+function showArt(id){
+  const a=arts[id];
+  const el=document.getElementById('ad-content');
+  if(el){
+    el.innerHTML=`<div class="ad-tag">${a.tag}</div>
+      <div class="ad-title">${a.title}</div>
+      <div class="ad-byline">
+        <div class="ad-av" style="background:${a.ab};color:${a.ac}">${a.av}</div>
+        <span>${a.author}</span><span>·</span><span>${a.date}</span><span>·</span><span>${a.rt} قراءة</span>
+      </div>
+      <div class="ad-hero">${a.emoji}</div>
+      <div class="ad-body">${artContent[id]}</div>`;
+  }
+  go('article-detail');
+}
+
+// ===== FAQ =====
+const faqs=[
+  {q:'ما هي متطلبات الانضمام لـ AXL؟',a:'يُشترط خبرة تداول حقيقي لا تقل عن 12 شهراً بحساب حقيقي. الحسابات التجريبية Demo لا تُحتسب. هذا شرط غير قابل للاستثناء.'},
+  {q:'ما الذي يجعل استراتيجية علاء مختلفة؟',a:'الاستراتيجية بُنيت على سنوات من التداول الفعلي لعلاء شخصياً — ليست خوارزمية مجهولة. تجمع بين هيكل السعر، تأكيد متعدد الإطارات، وإدارة مخاطر صارمة. النتيجة: 90+ إشارة ناجحة من كل 100.'},
+  {q:'لماذا الدفع بالكريبتو فقط؟',a:'لضمان الوصول العالمي من أي مكان بلا قيود مصرفية أو جغرافية. الأسعار بالدولار الأمريكي وتُحوَّل تلقائياً. نقبل BTC، ETH، USDT، USDC، BNB.'},
+  {q:'لماذا غرفة الدردشة للأعضاء فقط؟',a:'نحافظ على جودة المجتمع ونقائه. غرفة VIP تضم متداولين محترفين مُعتمدين فقط — بيئة تداول حقيقية بلا ضوضاء أو مبتدئين. هذا جزء من قيمة AXL.'},
+  {q:'كم عدد الإشارات اليومية؟',a:'بين 2-6 إشارات يومياً حسب ظروف السوق. الجودة قبل الكمية — لا تصدر إشارة إلا إذا توافرت شروط الاستراتيجية كاملة.'},
+  {q:'هل يمكنني إلغاء الاشتراك؟',a:'نعم، في أي وقت قبل دورة التجديد. لا رسوم إلغاء، لا التزامات. إذا لم تصل نسبة النجاح الشهرية لـ 80%، نُمدّد اشتراكك مجاناً شهراً كاملاً.'},
+  {q:'ما الأسواق التي يغطيها AXL؟',a:'الفوركس (30+ زوجاً)، العملات الرقمية الكبرى، الذهب والفضة، النفط، ومؤشرات الأسهم. الإشارات متوافقة مع جميع الوسطاء الرئيسيين.'},
+  {q:'هل يمكنني التحقق من النتائج بشكل مستقل؟',a:'نعم. السجل الكامل بتاريخ ووقت كل إشارة متاح للأعضاء للمراجعة المستقلة. الشفافية الكاملة من قيم AXL الأساسية.'},
+];
+const fl=document.getElementById('faqlist');
+if(fl){
+  fl.innerHTML=faqs.map((f,i)=>`<div class="faq-item" id="fi${i}">
+    <div class="faq-q" onclick="faqT(${i})"><span>${f.q}</span><span class="arr">+</span></div>
+    <div class="faq-a">${f.a}</div>
+  </div>`).join('');
+}
+function faqT(i){document.getElementById('fi'+i).classList.toggle('open')}
+
+// ===== REGISTER =====
+function regNext(s){
+  [1,2,3].forEach(n=>{
+    const e=document.getElementById('rstep'+n);if(e)e.style.display=n===s?'block':'none';
+    const t=document.getElementById('rs'+n);
+    if(t){t.classList.remove('on','done');if(n===s)t.classList.add('on');else if(n<s)t.classList.add('done');}
+  });
+}
+function googleReg(){
+  const b=document.querySelector('.goog-btn');b.textContent='جارٍ التحقق...';b.disabled=true;
+  setTimeout(()=>{regNext(2);b.textContent='المتابعة مع Google';b.disabled=false;},1100);
+}
+
+// ===== CHATBOT =====
+const cbAnswers={
+  'اشتراك':['لدينا 3 خطط: Starter ($29)، Pro ($79)، Elite ($199). جميعها تُدفع بالكريبتو. انتقل لصفحة الخطط لمقارنة المزايا.','بعد الموافقة على طلبك ستصلك تعليمات الدفع بالكريبتو. التفعيل فوري بعد التأكيد.'],
+  'دفع':['الدفع بالعملات الرقمية حصراً: BTC, ETH, USDT, USDC, BNB. الأسعار بالدولار الأمريكي.','فور الموافقة على طلبك ستصلك رسالة بعنوان المحفظة وتعليمات الدفع التفصيلية.'],
+  'إشارة':['نصدر 2-6 إشارات يومياً مبنية على استراتيجية علاء الشخصية بدقة 90+ من 100.','كل إشارة تتضمن: نقطة الدخول، الهدف، وقف الخسارة، ونسبة R/R واضحة.'],
+  'استراتيجية':['استراتيجية AXL طورها علاء شخصياً على مدار سنوات من التداول الحقيقي. تعتمد على 3 طبقات تأكيد مع إدارة مخاطر صارمة. النتيجة: 90+ من 100 دقة.','الاستراتيجية كاملة متاحة للأعضاء في خطة Elite مع شرح مفصل من علاء.'],
+  'خبرة':['يُشترط خبرة تداول حقيقي لا تقل عن سنة كاملة بحساب حقيقي. هذا شرط غير قابل للاستثناء في AXL.'],
+  'دردشة':['غرفة الدردشة VIP للأعضاء المشتركين فقط. هذا يضمن بيئة متداولين محترفين حقيقيين بلا ضوضاء.'],
+  'مبتدئ':['AXL للمتداولين ذوي الخبرة فقط. نحتاج سنة تداول حقيقي كحد أدنى. ابنِ خبرتك أولاً وعُد إلينا!'],
+  'axl':['AXL هو اسم المنصة، مستوحى من اسم مؤسسها علاء. علاء يشرف شخصياً على كل إشارة وتحليل.','AXL تعني أن كل إشارة تحمل اسم وسمعة علاء شخصياً. هذا ما يجعل المنهجية مختلفة.'],
+  'تواصل':['support@axl-trading.io أو تيليغرام @AXL_Official. نرد خلال أقل من 4 ساعات.'],
+};
+const cbSugs=['كيف أشترك؟','ما الاستراتيجية؟','كيف الدفع؟','هل أنا مؤهل؟','لماذا كريبتو؟'];
+
+function cbMsg(text,isBot){
+  const el=document.getElementById('cbmsgs');if(!el)return;
+  const d=document.createElement('div');d.className='cb-msg '+(isBot?'bot':'user');d.textContent=text;
+  el.appendChild(d);el.scrollTop=el.scrollHeight;
+}
+function initCb(){
+  cbMsg('مرحباً! أنا AXL AI 🤖\nكيف يمكنني مساعدتك اليوم؟',true);
+  const s=document.getElementById('cbsugs');
+  if(s)s.innerHTML=cbSugs.map(x=>`<button class="cb-sug" onclick="sendCb('${x}')">${x}</button>`).join('');
+}
+initCb();
+
+function sendCb(preset){
+  const inp=document.getElementById('cbinp');
+  const text=preset||(inp?inp.value.trim():'');
+  if(!text)return;
+  cbMsg(text,false);if(inp)inp.value='';
+  const s=document.getElementById('cbsugs');if(s)s.innerHTML='';
+  setTimeout(()=>{
+    let reply='يسعدني مساعدتك! هل تريد معرفة المزيد عن خطط AXL أو الاستراتيجية؟';
+    for(const k in cbAnswers){
+      if(text.includes(k)||text.toLowerCase().includes(k)){
+        const arr=cbAnswers[k];reply=arr[Math.floor(Math.random()*arr.length)];break;
+      }
+    }
+    cbMsg(reply,true);
+    if(s)s.innerHTML=cbSugs.slice(0,3).map(x=>`<button class="cb-sug" onclick="sendCb('${x}')">${x}</button>`).join('');
+  },600+Math.random()*400);
+}
+
+function toggleCb(){document.getElementById('cbwin').classList.toggle('open')}
+
+go('home');
+</script>
+</body>
+</html>
